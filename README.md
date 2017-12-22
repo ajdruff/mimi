@@ -28,6 +28,7 @@ Here are some other solutions that you might consider, and the reasons I discoun
 ## Installation
 
 **download**
+
     cd ~/src
     git clone git@github.com:ajdruff/mimi.git mimi
 
