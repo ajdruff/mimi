@@ -6,14 +6,14 @@ MiMi is a mini directory mirror that continuously rsyncs a local directory to yo
 
 
 
-# Overview
+## Overview
 
 MiMi is a bash script that runs in the background, reads a configuration file containing information about your local and remote directory and ssh connection details, and continously mirrors the local directory to your remote directory.
 
 To install place a sym link in your system's path (/usr/local/bin will do), and create the configuration file from the sample, placing it in the equivilent etc directory.
 
 
-# Why MiMi ? 
+## Why MiMi ? 
 
 MiMi is lightweight, doesn't require 3rd party libraries, is flexible, and can handle multiple instances working on multiple directories simultaneously.
 
@@ -25,26 +25,37 @@ Here are some other solutions that you might consider, and the reasons I discoun
 
 
 
-# Installation
+## Installation
 
+**download**
+    cd ~/src
+    git clone git@github.com:ajdruff/mimi.git mimi
 
-    cd /usr/local/bin
-    git clone mimi
-    mkdir /usr/local/bin/mimi
-    mkdir /usr/local/etc/mimi
-    ln -s mimi /usr/local/bin/mimi/mimi.sh
+**create a symlink in your PATH**
 
+    ln -s ~/src/mimi/mimi.sh ~/bin/mimi
 
+**create the  directory that will hold your configuration files**
 
-# Configuration
-
-cd /usr/local/bin
-cp /usr/local/bin/mimi/sample.conf  /usr/local/etc/mimi/dir-name.conf
+    mkdir -p ~/etc/mimi
 
 
 
 
-# Example
+## Configuration
+
+**create a configuration file from the sample**
+
+    cp ~/src/mimi/sample.conf ~/etc/mimi/devops.conf
+
+**edit the sample values**
+
+    nano ~/etc/mimi/devops.conf
+
+
+
+
+## Example
 
 We want to work on scripts that we'll place in a directory called 'devops' that resides under `/usr/local/sbin` on our remote server.
 
@@ -101,13 +112,13 @@ Edit it with the following values:
 
 
 
-# Sudo
+## Sudo
 
 If, as in our example, we are having the ssh user change ownership to `root` or do anything that requires root permissions, we'll have to give the user `joe` sudo privileges that don't require a password. Please see `man visudo` documentation on how to do this. 
 
-# Usage
+## Usage
 
-Once the configuration file is saved with name `devops.conf` in `/usr/local/etc` directory, we can start our MiMi daemon:
+Once the configuration file is saved with name `devops.conf` in `~/etc` directory, we can start our MiMi daemon:
 
     mimi start devops
 
@@ -134,35 +145,43 @@ For version information:
     mimi --version
 
 
-# Multiple Instances
+## Multiple Instances
 
 
 Want to sync multiple instances simultaneously? 
 
 create a different configuration file for each job:
 
-* /usr/local/etc/job1.conf
-* /usr/local/etc/job2.conf
-* /usr/local/etc/job3.conf
+* ~/etc/job1.conf
+* ~/etc/job2.conf
+* ~/etc/job3.conf
 
 and run them all one at a time or all at once:
 
     mimi start job1
     mimi start job2
-    mimi start job2
+    mimi start job3
 
 
 
 
-# Tweaks
+## Tweaks
 
-To change the frequency that rsync runs in seconds (the default is 5), add the following to your configuration file:
+### Change the frequency that rsync runs in seconds (the default is 5).
+
+Add the following to your configuration file:
 
     DAEMON_INTERVAL=5
 
 where 5 is the number of seconds you want the DAEMON to run. 
 
+### Change the location of the configuration directory:
 
+    nano ~/src/mimi/mimi.sh
+
+edit the followig line:
+
+    CONFIG_DIR="~/etc/mimi/"
 
 
 # Authors
